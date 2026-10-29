@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>台灣的石頭｜王良傑老師借展</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#EAF2F3;--sea:#D3E5EA;--land:#CFE3C2;--green:#4FA83D;--blue:#1E90E6;--yellow:#F6B92B;--ink:#1D2B2F;--mute:#5B6E73;--card:#fff;--wood:#8B5A2B;--hexfill:#E0F2FE;--red:#D32F2F;--line:#C5D6DA}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F1D20;--sea:#16292D;--land:#2B4130;--ink:#E7F0F1;--mute:#9DB3B8;--card:#1B2D31;--line:#2E454A;--hexfill:#1F4358}}
+:root[data-theme="dark"]{--bg:#0F1D20;--sea:#16292D;--land:#2B4130;--ink:#E7F0F1;--mute:#9DB3B8;--card:#1B2D31;--line:#2E454A;--hexfill:#1F4358}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:16px/1.6 "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif}
+main{max-width:520px;margin:0 auto;padding:16px 14px 40px}
+h1{font-size:1.5rem;margin:6px 0 2px;letter-spacing:.04em}
+.sub{margin:0 0 14px;color:var(--mute);font-size:.92rem}
+.tabs{display:flex;gap:6px;background:var(--sea);padding:4px;border-radius:12px;margin-bottom:12px}
+.tabs button{flex:1;border:0;background:none;color:var(--ink);font:inherit;padding:8px;border-radius:9px;cursor:pointer}
+.tabs button[aria-selected=true]{background:var(--card);font-weight:700;box-shadow:0 1px 3px #0003}
+button:focus-visible,g:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.map{background:var(--sea);border-radius:16px;padding:6px}
+.map svg{display:block;width:100%;height:auto}
+.pin{cursor:pointer}.pin circle{fill:var(--yellow);stroke:var(--blue);stroke-width:3}
+.pin .g{fill:none;stroke:#3a2a00;stroke-width:1.6;stroke-linejoin:round}.pin .lb{font-size:8.5px;font-weight:700;fill:var(--ink);stroke:var(--bg);stroke-width:3;paint-order:stroke;pointer-events:none}
+.lg{display:flex;gap:14px;flex-wrap:wrap;margin:8px 4px 0;font-size:.85rem;color:var(--mute)}.lg svg{width:20px;height:20px;vertical-align:-5px;margin-right:4px}.lg .g{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linejoin:round}
+.pin:hover circle{stroke-width:4.5}
+h2{font-size:1rem;margin:18px 0 8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1.5px solid var(--blue);background:var(--card);color:var(--ink);border-radius:99px;padding:3px 12px;font:inherit;font-size:.9rem;cursor:pointer}
+.chip.off{border-color:var(--line);color:var(--mute);cursor:default}
+.note{font-size:.82rem;color:var(--mute);margin:6px 0 0}
+.seg{display:flex;gap:6px;margin-bottom:10px}
+.seg button{flex:1;border:1.5px solid var(--wood);background:var(--card);color:var(--ink);font:inherit;padding:6px;border-radius:9px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--wood);color:#fff;font-weight:700}
+.cabbox{background:var(--card);border-radius:16px;padding:12px}
+.cabbox .hex{width:min(78%,300px);display:block;margin:0 auto}
+.hd{cursor:pointer}.hd:hover circle+circle{stroke:var(--ink);stroke-width:1.5}.hd:focus-visible{outline:none}.hd:focus-visible circle+circle{stroke:var(--blue);stroke-width:2}
+.list{list-style:none;margin:10px 0 0;padding:0}
+.list button{display:flex;align-items:center;gap:10px;width:100%;border:0;border-top:1px solid var(--line);background:none;color:var(--ink);font:inherit;padding:10px 4px;text-align:left;cursor:pointer}
+.list i{flex:none;width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;font-style:normal;font-size:.8rem;display:grid;place-items:center}
+.list small{margin-left:auto;color:var(--mute)}
+#ov{position:fixed;inset:0;background:#000a;display:none;align-items:center;justify-content:center;padding:14px;z-index:20}
+#ov.on{display:flex}
+.plate{background:var(--card);width:100%;max-width:440px;max-height:92vh;overflow:auto;overscroll-behavior:contain;overflow-wrap:anywhere;border-radius:6px;padding:18px;position:relative;animation:pop .22s ease-out}
+@keyframes pop{from{transform:scale(.8);opacity:0}}
+@media (prefers-reduced-motion:reduce){.plate{animation:none}}
+.head{display:flex;gap:12px;justify-content:space-between;align-items:flex-start}
+.head h3{margin:0;font-size:1.4rem;line-height:1.3}
+.head .en{color:var(--mute);font-size:.9rem}
+.loc{text-align:center;font-size:.72rem;color:var(--mute);flex:none;width:76px}
+.loc .hex{width:76px;display:block}
+.ph{margin:12px 0 4px;aspect-ratio:4/3;border-radius:4px;background:repeating-linear-gradient(45deg,var(--sea),var(--sea) 10px,var(--bg) 10px,var(--bg) 20px);display:grid;place-items:center;color:var(--mute);font-size:.85rem;position:relative;overflow:hidden}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pt{display:flex;gap:6px;margin-bottom:10px}
+.pt button{border:1px solid var(--line);background:none;color:var(--ink);font:inherit;font-size:.85rem;padding:2px 10px;border-radius:99px;cursor:pointer}
+.pt button[aria-pressed=true]{background:var(--ink);color:var(--card)}
+.plate dl{margin:0;font-size:.95rem}.plate dt{color:var(--mute);font-size:.8rem;margin-top:8px}.plate dd{margin:0;line-height:1.8}
+.x{position:absolute;right:6px;bottom:6px;border:0;background:var(--ink);color:var(--card);border-radius:99px;width:34px;height:34px;font-size:1rem;cursor:pointer;display:none}
+.close{display:block;width:100%;margin-top:14px;border:1.5px solid var(--ink);background:none;color:var(--ink);font:inherit;padding:8px;border-radius:9px;cursor:pointer}
+.back{display:inline-block;font-size:.9rem;color:var(--blue);text-decoration:none;padding:4px 0}
+footer{margin-top:24px;font-size:.78rem;color:var(--mute)}
+</style>
+</head>
+<body>
+<main>
+<a class="back" href="https://c44136188-ship-it.github.io/NCKU-earth-science-museum-/">← 回博物館導覽</a>
+<h1>台灣的石頭</h1>
+<p class="sub">台灣是年輕的島嶼，卻藏著許多漂亮的岩礦。這些都是王良傑老師在台灣各地撿到、挖到的。</p>
+<div class="tabs" role="tablist">
+<button role="tab" id="t1" aria-selected="true">地圖找展品</button>
+<button role="tab" id="t2" aria-selected="false">展櫃找展品</button>
+</div>
+<section id="v1">
+<div class="map"><svg id="svg" viewBox="0 0 285 365" role="img" aria-label="台灣地圖與採集地點"></svg></div>
+<div class="lg" id="lg"></div>
+<h2>產地未定</h2>
+<div class="chips" id="tray"></div>
+<h2>其他展品</h2>
+<div class="chips" id="others"></div>
+<p class="note">這些展品沒有說明牌，點名稱可以看照片，也歡迎直接在展櫃中欣賞。</p>
+</section>
+<section id="v2" hidden>
+<div class="seg" id="cabs"></div>
+<div class="seg" id="fls"></div>
+<div class="cabbox"><div id="hexbox"></div><ul class="list" id="flist"></ul></div>
+<p class="note">從大門進來，先遇到 A 櫃，再遇到 B 櫃。位置是站在大門口往展櫃內看的方向。點六邊形上的紅點，也能看到展品說明。</p>
+</section>
+<footer>成功大學地球科學系 系展｜說明文字為草稿，尚待系上校對。</footer>
+</main>
+<div id="ov" role="dialog" aria-modal="true"><div class="plate" id="plate"></div></div>
+<script>
+// [名稱, 英文, 產地, 經度, 緯度, 櫃, 層, 位置, 說明]
+const D=[
+['台灣玉','Taiwan jade','花蓮豐田',121.43,23.85,'A',1,'BL','閃玉的一種，台灣曾是重要產地，以花蓮豐田一帶最有名。'],
+['總統石','','台東海岸',121.33,23.2,'A',1,'BR','台東海岸礫灘可撿到的碧玉類石頭。'],
+['澎湖文石','','澎湖',119.58,23.57,'A',2,'L','澎湖群島主要由火山噴發的玄武岩組成，島上能撿到有花紋的石頭。'],
+['火山玻璃','Volcanic glass','',null,null,'A',2,'R','岩漿快速冷卻來不及結晶，就成了天然玻璃，黑曜岩是代表。'],
+['賀基姆鑽石','Doubly terminated quartz','屏東山區（暫定）',120.78,22.66,'A',3,'L','其實是兩端都有尖頭的水晶（石英），名稱借自美國的赫基默鑽石。'],
+['花鹿石','','屏東枋山',120.68,22.27,'A',3,'TR','名稱與鑑定仍待確認。'],
+['菱錳礦','Rhodochrosite','',null,null,'A',3,'BR','碳酸錳礦物，常呈粉紅色。'],
+['藍玉髓','Chalcedony','',null,null,'A',4,'BL','由微小石英晶體組成，二氧化矽成分，顏色來自微量雜質。'],
+['石膏','Gypsum','台南龍崎',120.35,22.97,'A',4,'BR','含水的硫酸鈣，硬度約 2，指甲就能刮出痕跡。'],
+['海膽＋鐵丸石','Sea urchin fossil & iron concretion','南投中寮',120.72,23.92,'B',1,'BL','海膽化石說明這裡曾是海底；鐵丸石是鐵質膠結成的球狀結核。'],
+['龜甲石','','南投中寮',120.84,23.82,'B',1,'BR','表面有龜殼般裂紋的石頭。'],
+['文石','Aragonite','新北三峽',121.37,24.93,'B',2,'L','碳酸鈣的一種，和方解石成分相同、晶體結構不同。'],
+['珊瑚玉','Fossil coral','新竹關西',121.18,24.79,'B',2,'R','珊瑚化石被矽質等礦物取代後形成，仍保留珊瑚的紋理。'],
+['魚卵玉','','',null,null,'B',3,'TL','表面有細小球粒，外觀像魚卵。'],
+['金珊瑚','Gold coral','',null,null,'B',3,'TR','珊瑚是動物，骨骼可作寶石，稱為有機寶石，不屬於礦物。'],
+['竹葉石','','',null,null,'B',4,'L','表面有竹葉狀花紋的岩石。'],
+['女媧石','','',null,null,'B',4,'TR','說明待補。'],
+['箭簇','Arrowhead','',null,null,'B',4,'BR','用黑曜岩、燧石打製的箭頭，是先民利用岩石的證據。']
+].map((a,i)=>({id:'s'+(i+1),zh:a[0],en:a[1],loc:a[2],lon:a[3],lat:a[4],cab:a[5],fl:a[6],slot:a[7],txt:a[8]}));
+const OTHERS=[['o1','墨玉杯'],['o3','石榴石'],['o6','雲母石'],['o7','紅珊瑚'],['o8','黑珊瑚'],['o10','藍花寶'],['o11','玄武岩'],['o13','植物化石']];
+const META={台灣玉:['m','r'],總統石:['m','r'],澎湖文石:['r','r'],火山玻璃:['r'],賀基姆鑽石:['m','r'],花鹿石:['r','l'],菱錳礦:['m'],藍玉髓:['m'],石膏:['m','l'],'海膽＋鐵丸石':['f','l'],龜甲石:['r','r'],文石:['m','r'],珊瑚玉:['f','l'],魚卵玉:['m'],金珊瑚:['f'],竹葉石:['r'],女媧石:['r'],箭簇:['r']};
+D.forEach(d=>{const m=META[d.zh];d.k=m[0];d.sd=m[1]||'r'});
+OTHERS.forEach(a=>D.push({id:a[0],zh:a[1],en:'',loc:'',lon:null,lat:null,cab:null,txt:'',o:1}));
+// 展櫃安排表：名稱:'櫃+層+位置'　位置 BL近門左 BR近門右 L左 R右 TL後方左 TR後方右 C中央
+const LAY={台灣玉:'A1BR',總統石:'A1L',墨玉杯:'A1TR',
+澎湖文石:'A2BL',花鹿石:'A2BR',玄武岩:'A2TL',火山玻璃:'A2TR',
+賀基姆鑽石:'A3L',菱錳礦:'A3TR',藍玉髓:'A3BR',
+石膏:'A4BR',石榴石:'A4L',藍花寶:'A4TR',
+'海膽＋鐵丸石':'B1BR',龜甲石:'B1L',植物化石:'B1TR',
+珊瑚玉:'B2BL',金珊瑚:'B2BR',紅珊瑚:'B2TL',黑珊瑚:'B2TR',
+文石:'B3BR',魚卵玉:'B3L',雲母石:'B3TR',
+竹葉石:'B4L',女媧石:'B4TR',箭簇:'B4BR'};
+D.forEach(d=>{const l=LAY[d.zh];d.cab=l[0];d.fl=+l[1];d.slot=l.slice(2)});
+// 較長的說明（小知識、採集地的地質特色）集中改這裡，格式：名稱:['小知識','地質特色']
+const X={
+石膏:['石膏是含水的硫酸鈣（CaSO₄·2H₂O），硬度只有 2，用指甲就能刮出痕跡，是最容易辨認的軟礦物之一。它常在水分蒸發的環境中結晶，也被用來製作石膏板與粉筆。','龍崎一帶是台灣有名的惡地地形，主要由年輕、鬆軟的泥質岩構成，雨水沖蝕後形成光禿的丘陵與溝谷。'],
+台灣玉:['台灣玉是閃玉的一種，由細小的纖維狀礦物緊密交織而成，所以質地細膩、韌性很高，不容易敲碎。台灣東部的閃玉礦曾大量開採，豐田一帶是最有名的產地。','花蓮豐田位於歐亞板塊與菲律賓海板塊碰撞的地帶，閃玉和蛇紋岩一起產出，是板塊擠壓與變質作用留下的成果。'],
+文石:['文石（霰石）和方解石的成分都是碳酸鈣，但晶體結構不同，常長成針狀或柱狀。貝類的珍珠層，也是由文石組成的。文石在常溫常壓下並不算穩定，經過漫長時間，可能慢慢轉變成方解石。','新北三峽位在台灣北部山麓，一帶的地層以砂岩、頁岩等沉積岩為主。岩石縫隙中常有地下水流過，水中溶解的礦物遇到合適的條件，就會在縫隙裡結晶。'],
+總統石:['總統石是在台東海岸的礫灘上撿到的石頭。海岸的石頭經過溪流搬運、海浪反覆磨洗，稜角被磨圓，表面變得光滑，所以每一顆都像是被精心打磨過。','台東海岸屬於海岸山脈，是菲律賓海板塊上的島弧與歐亞板塊碰撞後抬升形成的山脈，到現在仍在緩慢上升，所以海岸邊能撿到各種火山岩與沉積岩的碎塊。'],
+澎湖文石:['澎湖的海灘上能撿到表面帶有花紋的石頭，當地稱為「文石」。這個名稱和礦物學裡的文石（霰石）相同，但兩者不一定是同一回事，看展時可以比較看看。','澎湖群島是由大約一千萬年前噴發的玄武岩熔岩，一層一層堆疊而成，所以島嶼多半平坦，海邊還能看到柱子般的玄武岩節理。'],
+火山玻璃:['岩漿噴出地表後，如果冷卻得非常快，礦物來不及長成晶體，就會凝固成像玻璃一樣的物質，稱為火山玻璃。黑曜岩是最有名的一種，斷口光滑、邊緣鋒利，古人也會用它來製作工具。',''],
+賀基姆鑽石:['它其實是水晶：兩端都長出尖頭的石英，成分是二氧化矽。因為清澈透亮，美國紐約赫基默地區出產的這類水晶被取名為「赫基默鑽石」，但它不是真的鑽石，硬度約 7，鑽石則是 10。','屏東的山區位於中央山脈南段，岩層以受過擠壓變形的變質岩（如板岩）為主。岩縫中的熱水可能帶著二氧化矽，在空隙裡慢慢長成水晶。'],
+花鹿石:['花鹿石是台灣著名的觀賞雅石，主要成分是方沸石粗粒玄武岩。表面有白色或淡色的結晶紋路，像梅花鹿身上的斑點，因此得名。玄武岩是岩漿冷卻形成的火山岩，冷卻得比較慢時，礦物顆粒就會長得比較粗。','花鹿石產在屏東縣枋山的海邊，沿著馬路邊就能撿到，採集方便，產量也多，是相當普及的觀賞雅石。'],
+菱錳礦:['菱錳礦的成分是碳酸錳，常呈粉紅色到玫瑰紅色，硬度約 3.5 到 4，比指甲硬、比小刀軟。錳是鋼鐵工業與電池的重要原料，菱錳礦就是提煉錳的來源之一。',''],
+藍玉髓:['玉髓是由極細小的石英晶體緊密組成的礦物，成分是二氧化矽，常有像蠟一樣的光澤。藍色的來源因產地而異，有些與微量的銅等成分有關。',''],
+'海膽＋鐵丸石':['海膽是生活在海裡的動物，死後外殼被埋進沉積物，經過長時間變成化石，代表這裡過去是海洋。鐵丸石則是地下水中的鐵質把砂粒膠結在一起，一層層長大形成的球狀硬塊，稱為結核。','南投中寮位於台灣中西部的丘陵地帶，地層主要是數百萬年前堆積的砂岩與泥岩，保存著海洋生物的化石，說明這裡曾經是海底。'],
+龜甲石:['龜甲石的名稱來自表面像龜殼的網狀紋路。這類紋路可能是石頭內部因為收縮出現裂縫，後來被其他礦物填滿而形成的。','中寮一帶的地層以砂岩與泥岩為主，是數百萬年前海底堆積的沉積物，後來因為板塊擠壓抬升成為陸地。'],
+珊瑚玉:['珊瑚是生活在溫暖淺海的動物。死後被埋入地層，骨骼的碳酸鈣可能被二氧化矽取代，變成像玉石一樣堅硬的化石，同時仍保留珊瑚細緻的紋理。','新竹關西位於台灣北部的丘陵台地，地層以砂岩與頁岩等沉積岩為主。能在這裡找到珊瑚化石，代表這一帶過去曾經是溫暖的淺海。'],
+魚卵玉:['魚卵玉的名稱來自表面一粒粒像魚卵的小球。許多石頭上的球粒紋理，是礦物圍繞著微小顆粒一層一層長大形成的。',''],
+金珊瑚:['金珊瑚是生長在深海的珊瑚，骨骼帶有金黃色的光澤。它是動物的骨骼，不是礦物結晶，所以被稱為有機寶石，和珍珠、琥珀同類。它生長得非常緩慢，因此十分珍貴。',''],
+竹葉石:['竹葉石的表面有細長的葉片狀花紋，像一片片竹葉。這類花紋有的是礦物晶體排列成細長的形狀，有的是岩石中保存的生物痕跡，需要仔細觀察才能分辨。',''],
+女媧石:['這顆石頭的名字，讓人想到神話中煉五色石補天的女媧。觀察它的顏色與花紋，你覺得它像什麼？',''],
+箭簇:['箭簇是先民用石頭打製的箭頭。製作時要選擇容易敲出鋒利邊緣的石頭，黑曜岩、燧石這類質地細密、斷口光滑的岩石，就是很好的材料。','']
+};
+Object.entries(X).forEach(([k,v])=>{const d=D.find(x=>x.zh==k);d.txt=v[0];d.geo=v[1]});
+const GL={m:'<path class="g" d="M-5-2 -2.5-5.5H2.5L5-2 0 5.5ZM-5-2H5M-2.5-5.5-1.5-2 0 5.5 1.5-2 2.5-5.5"/>',r:'<ellipse class="g" rx="5.5" ry="4"/>',f:'<path class="g" d="M-4 3A5 5 0 1 1 3-3 3 3 0 1 0 0 1"/>'};
+const SAMP={};
+const SLOT={BL:[39.8,62.6,'近門左'],BR:[60.2,62.6,'近門右'],L:[29.6,45,'左側'],R:[70.4,45,'右側'],TL:[39.8,27.4,'後方左'],TR:[60.2,27.4,'後方右'],C:[50,45,'中央']};
+const OUT=[[121.5,25.3],[121.7,25.2],[121.95,25.05],[121.95,24.85],[121.85,24.6],[121.75,24.3],[121.6,24],[121.5,23.6],[121.4,23.2],[121.2,22.8],[120.95,22.4],[120.85,22],[120.72,21.93],[120.7,22.2],[120.6,22.4],[120.35,22.6],[120.2,22.85],[120.1,23.2],[120.15,23.6],[120.2,23.85],[120.35,24.05],[120.55,24.35],[120.7,24.65],[120.95,24.85],[121.1,25.05],[121.4,25.17]];
+const px=(lo,la)=>[((lo-119.3)*100).toFixed(1),((25.45-la)*100).toFixed(1)];
+const $=s=>document.querySelector(s);
+let cab='A',fl=1;
+
+function hex(dots){
+ let s='<svg class="hex" viewBox="0 0 100 106"><polygon points="84,45 67,74.4 33,74.4 16,45 33,15.6 67,15.6" fill="var(--hexfill)" stroke="var(--wood)" stroke-width="4" stroke-linejoin="round"/>';
+ dots.forEach(d=>{const p=SLOT[d.slot],c=d.id?` class="hd" data-id="${d.id}" tabindex="0" role="button" aria-label="${d.name}"`:'';s+=`<g${c}>`+(d.id?`<circle cx="${p[0]}" cy="${p[1]}" r="11" fill="transparent"/>`:'')+`<circle cx="${p[0]}" cy="${p[1]}" r="${d.n?7:6}" fill="var(--red)"/>`+(d.n?`<text x="${p[0]}" y="${p[1]+3}" font-size="8" font-weight="700" fill="#fff" text-anchor="middle" pointer-events="none">${d.n}</text>`:'')+'</g>'});
+ return s+'<text x="50" y="100" font-size="8" fill="var(--mute)" text-anchor="middle">▲ 大門</text></svg>';
+}
+function renderMap(){
+ const pts=OUT.map(p=>px(...p).join(',')).join(' ');
+ let s=`<polygon points="${pts}" fill="var(--land)" stroke="var(--green)" stroke-width="3.5" stroke-linejoin="round"/>`;
+ [[119.55,23.5,5],[119.6,23.62,5],[119.52,23.7,3]].forEach(c=>{const p=px(c[0],c[1]);s+=`<circle cx="${p[0]}" cy="${p[1]}" r="${c[2]}" fill="var(--land)" stroke="var(--green)" stroke-width="2.5"/>`});
+ D.filter(d=>d.lon).forEach(d=>{const p=px(d.lon,d.lat),L=d.sd=='l';s+=`<g class="pin" tabindex="0" role="button" aria-label="${d.zh}" data-id="${d.id}" transform="translate(${p[0]} ${p[1]})"><circle r="11"/>${GL.m}<clipPath id="c${d.id}"><circle r="9"/></clipPath><image href="${SAMP[d.id]||'images/'+d.id+'_t.jpg'}" x="-9" y="-9" width="18" height="18" clip-path="url(#c${d.id})" preserveAspectRatio="xMidYMid slice" onerror="this.remove()"/><text class="lb" x="${L?-14:14}" y="3" text-anchor="${L?'end':'start'}">${d.zh}</text></g>`});
+ $('#svg').innerHTML=s;
+ $('#tray').innerHTML=D.filter(d=>!d.lon&&!d.o).map(d=>`<button class="chip" data-id="${d.id}">${d.zh}</button>`).join('');
+ $('#others').innerHTML=D.filter(d=>d.o).map(d=>`<button class="chip" data-id="${d.id}">${d.zh}</button>`).join('');
+ 
+}
+function renderCab(){
+ $('#cabs').innerHTML=['A','B'].map(c=>`<button aria-pressed="${c==cab}" data-c="${c}">${c} 櫃</button>`).join('');
+ $('#fls').innerHTML=[4,3,2,1].map(f=>`<button aria-pressed="${f==fl}" data-f="${f}">${f}F</button>`).join('');
+ const it=D.filter(d=>d.cab==cab&&d.fl==fl);
+ $('#hexbox').innerHTML=hex(it.map((d,i)=>({slot:d.slot,n:i+1,id:d.id,name:d.zh})));
+ $('#flist').innerHTML=it.map((d,i)=>`<li><button data-id="${d.id}"><i>${i+1}</i>${d.zh}<small>${SLOT[d.slot][2]}</small></button></li>`).join('');
+}
+function open(id,tab){
+ const d=D.find(x=>x.id==id);tab=tab||1;
+ const pos=`${d.cab}櫃 · ${d.fl}F`;
+ $('#plate').innerHTML=`<div class="head"><div><h3>${d.zh}</h3><div class="en">${d.en}</div></div><div class="loc">${d.cab?hex([{slot:d.slot}])+pos+'<br>'+SLOT[d.slot][2]:''}</div></div>
+ <div class="ph">${d.o?'請在展櫃中欣賞這件展品':'照片待補'}<img src="images/${d.id}_1.jpg" alt="${d.zh}" onerror="this.remove()"></div>
+ 
+ ${d.o?'':`<dl><dt>採集地</dt><dd>${d.loc||'產地未定'}</dd><dt>小知識</dt><dd>${d.txt}</dd>${d.geo?`<dt>採集地的地質特色</dt><dd>${d.geo}</dd>`:''}</dl>`}
+ <button class="close">關閉</button>`;
+ $('#plate').dataset.id=id;$('#ov').classList.add('on');$('#plate .close').focus();
+}
+const close=()=>$('#ov').classList.remove('on');
+document.addEventListener('click',e=>{
+ const t=e.target;
+ if(t.id=='ov'||t.closest('.close'))return close();
+ const p=t.closest('[data-p]');if(p)return open($('#plate').dataset.id,+p.dataset.p);
+ const g=t.closest('[data-id]');if(g)return open(g.dataset.id);
+ const c=t.closest('[data-c]');if(c){cab=c.dataset.c;return renderCab()}
+ const f=t.closest('[data-f]');if(f){fl=+f.dataset.f;return renderCab()}
+});
+document.addEventListener('keydown',e=>{
+ if(e.key=='Escape')close();
+ if((e.key=='Enter'||e.key==' ')&&e.target.matches&&e.target.matches('.pin,.hd')){e.preventDefault();open(e.target.dataset.id)}
+});
+function tab(n){
+ $('#v1').hidden=n!=1;$('#v2').hidden=n!=2;
+ $('#t1').setAttribute('aria-selected',n==1);$('#t2').setAttribute('aria-selected',n==2);
+}
+$('#t1').onclick=()=>tab(1);$('#t2').onclick=()=>tab(2);
+renderMap();renderCab();
+</script>
+</body>
+</html>
