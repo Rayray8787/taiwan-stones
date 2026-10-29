@@ -35,6 +35,7 @@ h2{font-size:1rem;margin:18px 0 8px}
 .seg button[aria-pressed=true]{background:var(--wood);color:#fff;font-weight:700}
 .cabbox{background:var(--card);border-radius:16px;padding:12px}
 .cabbox .hex{width:min(78%,300px);display:block;margin:0 auto}
+.hd{cursor:pointer}.hd:hover circle+circle{stroke:var(--ink);stroke-width:1.5}.hd:focus-visible{outline:none}.hd:focus-visible circle+circle{stroke:var(--blue);stroke-width:2}
 .list{list-style:none;margin:10px 0 0;padding:0}
 .list button{display:flex;align-items:center;gap:10px;width:100%;border:0;border-top:1px solid var(--line);background:none;color:var(--ink);font:inherit;padding:10px 4px;text-align:left;cursor:pointer}
 .list i{flex:none;width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;font-style:normal;font-size:.8rem;display:grid;place-items:center}
@@ -83,7 +84,7 @@ footer{margin-top:24px;font-size:.78rem;color:var(--mute)}
 <div class="seg" id="cabs"></div>
 <div class="seg" id="fls"></div>
 <div class="cabbox"><div id="hexbox"></div><ul class="list" id="flist"></ul></div>
-<p class="note">從大門進來，先遇到 A 櫃，再遇到 B 櫃。位置是站在大門口往展櫃內看的方向。</p>
+<p class="note">從大門進來，先遇到 A 櫃，再遇到 B 櫃。位置是站在大門口往展櫃內看的方向。點六邊形上的紅點，也能看到展品說明。</p>
 </section>
 <footer>成功大學地球科學系 系展｜說明文字為草稿，尚待系上校對。</footer>
 </main>
@@ -110,18 +111,18 @@ const D=[
 ['女媧石','','',null,null,'B',4,'TR','說明待補。'],
 ['箭簇','Arrowhead','',null,null,'B',4,'BR','用黑曜岩、燧石打製的箭頭，是先民利用岩石的證據。']
 ].map((a,i)=>({id:'s'+(i+1),zh:a[0],en:a[1],loc:a[2],lon:a[3],lat:a[4],cab:a[5],fl:a[6],slot:a[7],txt:a[8]}));
-const OTHERS=['墨玉杯','黑色石頭','石榴石','豐田玉','貓眼','雲母石','紅珊瑚','黑珊瑚','海竹染色','藍花寶','玄武岩','綠色石頭','竹葉岩'];
+const OTHERS=[['o1','墨玉杯'],['o3','石榴石'],['o6','雲母石'],['o7','紅珊瑚'],['o8','黑珊瑚'],['o10','藍花寶'],['o11','玄武岩'],['o13','植物化石']];
 const META={台灣玉:['m','r'],總統石:['m','r'],澎湖文石:['r','r'],火山玻璃:['r'],賀基姆鑽石:['m','r'],花鹿石:['r','l'],菱錳礦:['m'],藍玉髓:['m'],石膏:['m','l'],'海膽＋鐵丸石':['f','l'],龜甲石:['r','r'],文石:['m','r'],珊瑚玉:['f','l'],魚卵玉:['m'],金珊瑚:['f'],竹葉石:['r'],女媧石:['r'],箭簇:['r']};
 D.forEach(d=>{const m=META[d.zh];d.k=m[0];d.sd=m[1]||'r'});
-OTHERS.forEach((n,i)=>D.push({id:'o'+(i+1),zh:n,en:'',loc:'',lon:null,lat:null,cab:null,txt:'',o:1}));
+OTHERS.forEach(a=>D.push({id:a[0],zh:a[1],en:'',loc:'',lon:null,lat:null,cab:null,txt:'',o:1}));
 // 展櫃安排表：名稱:'櫃+層+位置'　位置 BL近門左 BR近門右 L左 R右 TL後方左 TR後方右 C中央
-const LAY={台灣玉:'A1BL',豐田玉:'A1BR',墨玉杯:'A1TL',總統石:'A1TR',
+const LAY={台灣玉:'A1BR',總統石:'A1L',墨玉杯:'A1TR',
 澎湖文石:'A2BL',花鹿石:'A2BR',玄武岩:'A2TL',火山玻璃:'A2TR',
 賀基姆鑽石:'A3L',菱錳礦:'A3TR',藍玉髓:'A3BR',
-石膏:'A4BL',石榴石:'A4BR',貓眼:'A4TL',藍花寶:'A4TR',
-'海膽＋鐵丸石':'B1BL',龜甲石:'B1BR',黑色石頭:'B1TL',綠色石頭:'B1TR',竹葉岩:'B1C',
+石膏:'A4BR',石榴石:'A4L',藍花寶:'A4TR',
+'海膽＋鐵丸石':'B1BR',龜甲石:'B1L',植物化石:'B1TR',
 珊瑚玉:'B2BL',金珊瑚:'B2BR',紅珊瑚:'B2TL',黑珊瑚:'B2TR',
-文石:'B3BL',魚卵玉:'B3BR',海竹染色:'B3TL',雲母石:'B3TR',
+文石:'B3BR',魚卵玉:'B3L',雲母石:'B3TR',
 竹葉石:'B4L',女媧石:'B4TR',箭簇:'B4BR'};
 D.forEach(d=>{const l=LAY[d.zh];d.cab=l[0];d.fl=+l[1];d.slot=l.slice(2)});
 // 較長的說明（小知識、採集地的地質特色）集中改這裡，格式：名稱:['小知識','地質特色']
@@ -155,15 +156,15 @@ const $=s=>document.querySelector(s);
 let cab='A',fl=1;
 
 function hex(dots){
- let s='<svg class="hex" viewBox="0 0 100 106" aria-hidden="true"><polygon points="84,45 67,74.4 33,74.4 16,45 33,15.6 67,15.6" fill="var(--hexfill)" stroke="var(--wood)" stroke-width="4" stroke-linejoin="round"/>';
- dots.forEach(d=>{const p=SLOT[d.slot];s+=`<circle cx="${p[0]}" cy="${p[1]}" r="${d.n?7:6}" fill="var(--red)"/>`+(d.n?`<text x="${p[0]}" y="${p[1]+3}" font-size="8" font-weight="700" fill="#fff" text-anchor="middle">${d.n}</text>`:'')});
+ let s='<svg class="hex" viewBox="0 0 100 106"><polygon points="84,45 67,74.4 33,74.4 16,45 33,15.6 67,15.6" fill="var(--hexfill)" stroke="var(--wood)" stroke-width="4" stroke-linejoin="round"/>';
+ dots.forEach(d=>{const p=SLOT[d.slot],c=d.id?` class="hd" data-id="${d.id}" tabindex="0" role="button" aria-label="${d.name}"`:'';s+=`<g${c}>`+(d.id?`<circle cx="${p[0]}" cy="${p[1]}" r="11" fill="transparent"/>`:'')+`<circle cx="${p[0]}" cy="${p[1]}" r="${d.n?7:6}" fill="var(--red)"/>`+(d.n?`<text x="${p[0]}" y="${p[1]+3}" font-size="8" font-weight="700" fill="#fff" text-anchor="middle" pointer-events="none">${d.n}</text>`:'')+'</g>'});
  return s+'<text x="50" y="100" font-size="8" fill="var(--mute)" text-anchor="middle">▲ 大門</text></svg>';
 }
 function renderMap(){
  const pts=OUT.map(p=>px(...p).join(',')).join(' ');
  let s=`<polygon points="${pts}" fill="var(--land)" stroke="var(--green)" stroke-width="3.5" stroke-linejoin="round"/>`;
  [[119.55,23.5,5],[119.6,23.62,5],[119.52,23.7,3]].forEach(c=>{const p=px(c[0],c[1]);s+=`<circle cx="${p[0]}" cy="${p[1]}" r="${c[2]}" fill="var(--land)" stroke="var(--green)" stroke-width="2.5"/>`});
- D.filter(d=>d.lon).forEach(d=>{const p=px(d.lon,d.lat),L=d.sd=='l';s+=`<g class="pin" tabindex="0" role="button" aria-label="${d.zh}" data-id="${d.id}" transform="translate(${p[0]} ${p[1]})"><circle r="11"/>${GL.m}<clipPath id="c${d.id}"><circle r="9"/></clipPath><image href="${SAMP[d.id]||'images/'+d.id+'_1.jpg'}" x="-9" y="-9" width="18" height="18" clip-path="url(#c${d.id})" preserveAspectRatio="xMidYMid slice" onerror="this.remove()"/><text class="lb" x="${L?-14:14}" y="3" text-anchor="${L?'end':'start'}">${d.zh}</text></g>`});
+ D.filter(d=>d.lon).forEach(d=>{const p=px(d.lon,d.lat),L=d.sd=='l';s+=`<g class="pin" tabindex="0" role="button" aria-label="${d.zh}" data-id="${d.id}" transform="translate(${p[0]} ${p[1]})"><circle r="11"/>${GL.m}<clipPath id="c${d.id}"><circle r="9"/></clipPath><image href="${SAMP[d.id]||'images/'+d.id+'_t.jpg'}" x="-9" y="-9" width="18" height="18" clip-path="url(#c${d.id})" preserveAspectRatio="xMidYMid slice" onerror="this.remove()"/><text class="lb" x="${L?-14:14}" y="3" text-anchor="${L?'end':'start'}">${d.zh}</text></g>`});
  $('#svg').innerHTML=s;
  $('#tray').innerHTML=D.filter(d=>!d.lon&&!d.o).map(d=>`<button class="chip" data-id="${d.id}">${d.zh}</button>`).join('');
  $('#others').innerHTML=D.filter(d=>d.o).map(d=>`<button class="chip" data-id="${d.id}">${d.zh}</button>`).join('');
@@ -173,15 +174,15 @@ function renderCab(){
  $('#cabs').innerHTML=['A','B'].map(c=>`<button aria-pressed="${c==cab}" data-c="${c}">${c} 櫃</button>`).join('');
  $('#fls').innerHTML=[4,3,2,1].map(f=>`<button aria-pressed="${f==fl}" data-f="${f}">${f}F</button>`).join('');
  const it=D.filter(d=>d.cab==cab&&d.fl==fl);
- $('#hexbox').innerHTML=hex(it.map((d,i)=>({slot:d.slot,n:i+1})));
+ $('#hexbox').innerHTML=hex(it.map((d,i)=>({slot:d.slot,n:i+1,id:d.id,name:d.zh})));
  $('#flist').innerHTML=it.map((d,i)=>`<li><button data-id="${d.id}"><i>${i+1}</i>${d.zh}<small>${SLOT[d.slot][2]}</small></button></li>`).join('');
 }
 function open(id,tab){
  const d=D.find(x=>x.id==id);tab=tab||1;
  const pos=`${d.cab}櫃 · ${d.fl}F`;
  $('#plate').innerHTML=`<div class="head"><div><h3>${d.zh}</h3><div class="en">${d.en}</div></div><div class="loc">${d.cab?hex([{slot:d.slot}])+pos+'<br>'+SLOT[d.slot][2]:''}</div></div>
- <div class="ph">${d.o?'請在展櫃中欣賞這件展品':'照片待補'}<img src="images/${d.id}_${tab}.jpg" alt="${d.zh}" onerror="this.remove()"></div>
- ${d.o?'':`<div class="pt"><button aria-pressed="${tab==1}" data-p="1">展品照</button><button aria-pressed="${tab==2}" data-p="2">精選美圖</button></div>`}
+ <div class="ph">${d.o?'請在展櫃中欣賞這件展品':'照片待補'}<img src="images/${d.id}_1.jpg" alt="${d.zh}" onerror="this.remove()"></div>
+ 
  ${d.o?'':`<dl><dt>採集地</dt><dd>${d.loc||'產地未定'}</dd><dt>小知識</dt><dd>${d.txt}</dd>${d.geo?`<dt>採集地的地質特色</dt><dd>${d.geo}</dd>`:''}</dl>`}
  <button class="close">關閉</button>`;
  $('#plate').dataset.id=id;$('#ov').classList.add('on');$('#plate .close').focus();
@@ -197,7 +198,7 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('keydown',e=>{
  if(e.key=='Escape')close();
- if((e.key=='Enter'||e.key==' ')&&e.target.matches&&e.target.matches('.pin')){e.preventDefault();open(e.target.dataset.id)}
+ if((e.key=='Enter'||e.key==' ')&&e.target.matches&&e.target.matches('.pin,.hd')){e.preventDefault();open(e.target.dataset.id)}
 });
 function tab(n){
  $('#v1').hidden=n!=1;$('#v2').hidden=n!=2;
